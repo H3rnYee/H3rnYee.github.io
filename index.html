@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Write your comments here -->
+<head>
+    <meta charset="UTF-8">
+    <link rel = "stylesheet" type = "text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goh Hern Yee - Portfolio</title>
+</head>
+<body>
+    <div class="floating-particles" id="particles"></div>
+    <!-- navigation bar -->
+    <nav id="navbar">
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+<!-- Big title -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Goh Hern Yee</h1>
+            <p>Aspiring Developer & Influencer</p>
+            <a href="#projects" class="cta-button">View My Work</a>
+        </div>
+    </section>
+<!-- About me -->
+    <section id="about" class="animate-on-scroll">
+        <h2>About Me</h2>
+        <p style="font-size: 1.2rem; line-height: 1.8; text-align: center; opacity: 0.9;">
+            I'm a passionate developer with experience in Python, HTML, CSS, and always eager to learn new technologies.
+            By utilising every tool possible, I will try to get the job done with the best of ability. 
+            I feel that in this new age, we need to embrace change and adapt accordingly.
+        </p>
+    </section>
+<!-- Grid of Coding Skills -->
+    <section id="skills" class="animate-on-scroll">
+        <h2>My Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <span class="skill-icon">🐍</span>
+                <h3>Python</h3>
+                <p>Backend development, data analysis, and automation scripts</p>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">🌐</span>
+                <h3>HTML/CSS</h3>
+                <p>Responsive web design and modern CSS techniques</p>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">🤖</span>
+                <h3> AI tools (beginner)</h3>
+                <p>Intergrating AI in coding and everyday life to boost productivity</p>
+            </div>
+            <div class="skill-card">
+                <span class="skill-icon">🚀</span>
+                <h3>Learning More</h3>
+                <p>Always exploring new technologies and frameworks</p>
+            </div>
+        </div>
+    </section>
+<!-- List of Projects -->
+    <section id="projects" class="animate-on-scroll">
+        <h2>My Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-image">🎮</div>
+                <div class="project-content">
+                    <h3>Interactive Game</h3>
+                    <p>A fun browser-based game built with JavaScript and HTML5 Canvas. Features smooth animations and responsive controls.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">📊</div>
+                <div class="project-content">
+                    <h3>Data Visualization</h3>
+                    <p>Python-based data analysis tool with beautiful charts and insights. Built using matplotlib and pandas.</p>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-image">🌟</div>
+                <div class="project-content">
+                    <h3>Portfolio Website</h3>
+                    <p>This very website! A modern, responsive portfolio showcasing my skills and projects with smooth animations.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="animate-on-scroll">
+        <h2>Get In Touch</h2>
+        <form class="contact-form" id="contactForm">
+            <div class="form-group">
+                <input type="text" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <textarea rows="5" placeholder="Your Message" required></textarea>
+            </div>
+            <button type="submit" class="cta-button">Send Message</button>
+        </form>
+    </section>
+
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation and submission simulation
+            const button = this.querySelector('button');
+            const originalText = button.textContent;
+            
+            button.textContent = 'Sending...';
+            button.style.background = 'linear-gradient(45deg, #00ff00, #008000)';
+            
+            setTimeout(() => {
+                button.textContent = 'Message Sent!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'linear-gradient(45deg, #00f5ff, #ff00ff)';
+                    this.reset();
+                }, 2000);
+            }, 1500);
+        });
+
+        // Add some interactive hover effects to skill cards
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) rotateX(5deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) rotateX(0deg)';
+            });
+        });
+
+        // Initialize particles when page loads
+        createParticles();
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+    </script>
+</body>
+</html>
