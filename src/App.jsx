@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './App.css';
 
 // Inline SVG Icons
 const ChevronDown = ({ size = 24, className = "" }) => (
