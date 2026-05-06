@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './App.css';
 
 // Inline SVG Icons
 const ChevronDown = ({ size = 24, className = "" }) => (
@@ -35,8 +34,112 @@ const ExternalLink = ({ size = 24, className = "" }) => (
   </svg>
 );
 
+const Menu = ({ size = 24, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <line x1="3" y1="6" x2="21" y2="6"></line>
+    <line x1="3" y1="12" x2="21" y2="12"></line>
+    <line x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+);
+
+const X = ({ size = 24, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className={className}>
+    <line x1="18" y1="6" x2="6" y2="18"></line>
+    <line x1="6" y1="6" x2="18" y2="18"></line>
+  </svg>
+);
+
 export default function AboutMe() {
-  const [expandedSkill, setExpandedSkill] = useState(null);
+  const [currentPage, setCurrentPage] = useState('home');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const NavBar = () => (
+    <nav className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+      <div className="max-w-6xl mx-auto px-6 py-4">
+        <div className="flex justify-between items-center">
+          {/* Logo */}
+          <button
+            onClick={() => {
+              setCurrentPage('home');
+              setMobileMenuOpen(false);
+            }}
+            className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600 hover:opacity-80 transition"
+          >
+            JD
+          </button>
+
+          {/* Desktop Menu */}
+          <div className="hidden md:flex gap-8">
+            <button
+              onClick={() => setCurrentPage('home')}
+              className={`font-medium transition ${
+                currentPage === 'home' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Home
+            </button>
+            <button
+              onClick={() => setCurrentPage('experience')}
+              className={`font-medium transition ${
+                currentPage === 'experience' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Experience
+            </button>
+            <button
+              onClick={() => setCurrentPage('projects')}
+              className={`font-medium transition ${
+                currentPage === 'projects' ? 'text-blue-600' : 'text-gray-700 hover:text-blue-600'
+              }`}
+            >
+              Projects
+            </button>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition"
+          >
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-4 space-y-3 border-t border-gray-200 pt-4">
+            <button
+              onClick={() => {
+                setCurrentPage('home');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => {
+                setCurrentPage('experience');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition"
+            >
+              Experience
+            </button>
+            <button
+              onClick={() => {
+                setCurrentPage('projects');
+                setMobileMenuOpen(false);
+              }}
+              className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition"
+            >
+              Projects
+            </button>
+          </div>
+        )}
+      </div>
+    </nav>
+  );
 
   const Hero = () => (
     <div className="min-h-screen flex flex-col justify-center items-center px-6 py-20 bg-gradient-to-b from-blue-50 to-transparent">
@@ -122,19 +225,12 @@ export default function AboutMe() {
           <h2 className="text-4xl font-bold mb-12 text-gray-900">Skills & expertise</h2>
           <div className="grid md:grid-cols-2 gap-6">
             {skillCategories.map((category, idx) => (
-              <div
-                key={idx}
-                className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition cursor-pointer"
-                onClick={() => setExpandedSkill(expandedSkill === idx ? null : idx)}
-              >
+              <div key={idx} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition cursor-pointer">
                 <div className={`inline-block h-1 w-12 rounded-full mb-4 bg-gradient-to-r ${category.color}`}></div>
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">{category.name}</h3>
                 <div className="flex flex-wrap gap-2">
                   {category.skills.map((skill, sidx) => (
-                    <span
-                      key={sidx}
-                      className="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium"
-                    >
+                    <span key={sidx} className="px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-sm font-medium">
                       {skill}
                     </span>
                   ))}
@@ -147,99 +243,143 @@ export default function AboutMe() {
     );
   };
 
-  const Experience = () => {
+  const HomePage = () => (
+    <div>
+      <Hero />
+      <About />
+      <Skills />
+    </div>
+  );
+
+  const ExperiencePage = () => {
     const experiences = [
       {
         role: 'Senior Frontend Engineer',
         company: 'TechCorp Inc.',
         period: '2022 - Present',
-        description: 'Leading frontend architecture and mentoring a team of 5 engineers'
+        description: 'Leading frontend architecture and mentoring a team of 5 engineers. Implemented a new design system that improved development velocity by 40%.'
       },
       {
         role: 'Full-stack Developer',
         company: 'StartupXYZ',
         period: '2020 - 2022',
-        description: 'Built and scaled web applications serving 100k+ users'
+        description: 'Built and scaled web applications serving 100k+ users. Architected microservices infrastructure using Node.js and AWS, reducing API response time by 60%.'
       },
       {
         role: 'Junior Developer',
         company: 'Digital Agency',
         period: '2018 - 2020',
-        description: 'Developed responsive websites and web applications for diverse clients'
+        description: 'Developed responsive websites and web applications for diverse clients. Collaborated with designers and product managers to deliver pixel-perfect UIs.'
+      },
+      {
+        role: 'Web Developer Intern',
+        company: 'Tech Startup',
+        period: '2017 - 2018',
+        description: 'Started my journey with HTML, CSS, and JavaScript fundamentals. Contributed to various projects and learned best practices in web development.'
       }
     ];
 
     return (
-      <section className="py-20 px-6 bg-white">
+      <section className="min-h-screen py-20 px-6 bg-white">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-gray-900">Experience</h2>
+          <h1 className="text-5xl font-bold mb-4 text-gray-900">Experience</h1>
+          <p className="text-lg text-gray-600 mb-12">My professional journey in web development</p>
+          
           <div className="space-y-8">
             {experiences.map((exp, idx) => (
-              <div key={idx} className="relative pl-8 border-l-2 border-blue-500">
+              <div key={idx} className="relative pl-8 border-l-2 border-blue-500 pb-8">
                 <div className="absolute left-[-9px] top-0 w-4 h-4 rounded-full bg-blue-500"></div>
-                <h3 className="text-xl font-semibold text-gray-900">{exp.role}</h3>
-                <p className="text-blue-600 font-medium">{exp.company}</p>
-                <p className="text-gray-500 text-sm mb-2">{exp.period}</p>
-                <p className="text-gray-600">{exp.description}</p>
+                <h3 className="text-2xl font-semibold text-gray-900">{exp.role}</h3>
+                <p className="text-blue-600 font-medium text-lg">{exp.company}</p>
+                <p className="text-gray-500 text-sm mb-3">{exp.period}</p>
+                <p className="text-gray-600 leading-relaxed">{exp.description}</p>
               </div>
             ))}
           </div>
+
+          <button
+            onClick={() => setCurrentPage('home')}
+            className="mt-12 px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+          >
+            Back to Home
+          </button>
         </div>
       </section>
     );
   };
 
-  const Projects = () => {
+  const ProjectsPage = () => {
     const projects = [
       {
         title: 'E-Commerce Platform',
-        description: 'Full-stack e-commerce solution with real-time inventory management',
+        description: 'Full-stack e-commerce solution with real-time inventory management, payment processing, and admin dashboard. Built with React, Node.js, and PostgreSQL.',
         tags: ['React', 'Node.js', 'PostgreSQL', 'Stripe'],
-        link: '#'
+        link: '#',
+        details: 'Increased conversion rate by 35% through optimized checkout flow. Handled 10k+ daily transactions.'
       },
       {
         title: 'Task Management App',
-        description: 'Collaborative task management tool with real-time updates',
+        description: 'Collaborative task management tool with real-time updates, team workspaces, and project tracking. Supports 1000+ concurrent users.',
         tags: ['Vue.js', 'Firebase', 'Tailwind CSS'],
-        link: '#'
+        link: '#',
+        details: 'Built with WebSockets for real-time collaboration. Used by 50+ companies internally.'
       },
       {
         title: 'Data Visualization Dashboard',
-        description: 'Interactive dashboard for analyzing and visualizing complex datasets',
+        description: 'Interactive dashboard for analyzing and visualizing complex datasets with custom charts, filters, and exports.',
         tags: ['React', 'D3.js', 'Python', 'AWS'],
-        link: '#'
+        link: '#',
+        details: 'Processes 1M+ data points with sub-second load times. Deployed on AWS with auto-scaling.'
+      },
+      {
+        title: 'AI Content Generator',
+        description: 'SaaS platform for generating blog posts, social media content, and marketing copy using GPT-3 API integration.',
+        tags: ['Next.js', 'OpenAI API', 'Stripe'],
+        link: '#',
+        details: 'Currently generating 10k+ pieces of content monthly. 500+ active users.'
       }
     ];
 
     return (
-      <section className="py-20 px-6 bg-gray-50">
+      <section className="min-h-screen py-20 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl font-bold mb-12 text-gray-900">Featured projects</h2>
-          <div className="grid md:grid-cols-2 gap-6">
+          <h1 className="text-5xl font-bold mb-4 text-gray-900">Featured Projects</h1>
+          <p className="text-lg text-gray-600 mb-12">A selection of my recent work</p>
+          
+          <div className="space-y-8">
             {projects.map((project, idx) => (
-              <a
-                key={idx}
-                href={project.link}
-                className="group bg-white rounded-lg border border-gray-200 p-6 hover:shadow-lg transition"
-              >
-                <h3 className="text-xl font-semibold text-gray-900 mb-3 group-hover:text-blue-600 transition">
+              <div key={idx} className="bg-white rounded-lg border border-gray-200 p-8 hover:shadow-lg transition">
+                <h3 className="text-2xl font-semibold text-gray-900 mb-3">
                   {project.title}
                 </h3>
-                <p className="text-gray-600 mb-4">{project.description}</p>
-                <div className="flex flex-wrap gap-2 mb-4">
+                <p className="text-gray-600 mb-4 text-lg">{project.description}</p>
+                <p className="text-gray-500 italic mb-6">{project.details}</p>
+                
+                <div className="flex flex-wrap gap-2 mb-6">
                   {project.tags.map((tag, tidx) => (
-                    <span key={tidx} className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-sm font-medium">
+                    <span key={tidx} className="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
                       {tag}
                     </span>
                   ))}
                 </div>
-                <div className="flex items-center text-blue-600 font-medium group-hover:gap-2 transition gap-1">
+                
+                <a
+                  href={project.link}
+                  className="inline-flex items-center text-blue-600 font-medium hover:gap-2 transition gap-1"
+                >
                   View project
                   <ExternalLink size={16} />
-                </div>
-              </a>
+                </a>
+              </div>
             ))}
           </div>
+
+          <button
+            onClick={() => setCurrentPage('home')}
+            className="mt-12 px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+          >
+            Back to Home
+          </button>
         </div>
       </section>
     );
@@ -253,17 +393,11 @@ export default function AboutMe() {
           Whether you have a project in mind, want to collaborate, or just want to chat about tech, I'd love to hear from you.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <a
-            href="mailto:john@example.com"
-            className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2"
-          >
+          <a href="mailto:john@example.com" className="px-8 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition flex items-center justify-center gap-2">
             <Mail size={20} />
             Email me
           </a>
-          <a
-            href="#"
-            className="px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition"
-          >
+          <a href="#" className="px-8 py-3 border-2 border-blue-600 text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition">
             Schedule a call
           </a>
         </div>
@@ -279,12 +413,19 @@ export default function AboutMe() {
 
   return (
     <div className="bg-white">
-      <Hero />
-      <About />
-      <Skills />
-      <Experience />
-      <Projects />
-      <Contact />
+      <NavBar />
+      
+      {currentPage === 'home' && (
+        <>
+          <HomePage />
+          <Contact />
+        </>
+      )}
+      
+      {currentPage === 'experience' && <ExperiencePage />}
+      
+      {currentPage === 'projects' && <ProjectsPage />}
+      
       <Footer />
     </div>
   );
