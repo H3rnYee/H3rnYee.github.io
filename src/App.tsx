@@ -377,28 +377,28 @@ export default function App() {
               className="text-6xl md:text-[10vw] font-serif leading-none tracking-tighter mb-20"
             >
               LET'S CREATE <br />
-              <span className="italic italic text-brand-accent">SENSATIONS.</span>
+              <span className="italic italic text-brand-accent">SOLUTIONS.</span>
             </motion.h2>
 
             <div className="flex flex-col md:flex-row justify-center items-center gap-12">
               <motion.a 
-                href="mailto:hello@elysia.studio"
+                href="mailto:ghernyee@gmail.com"
                 whileHover={{ scale: 1.05 }}
                 className="group flex items-center gap-4 text-3xl md:text-5xl font-serif italic border-b border-white/20 pb-4"
               >
-                hello@elysia.studio <ArrowRight className="group-hover:translate-x-4 transition-transform duration-500" />
+                ghernyee@gmail.com <ArrowRight className="group-hover:translate-x-4 transition-transform duration-500" />
               </motion.a>
             </div>
 
             <div className="mt-32 flex flex-wrap justify-center gap-10">
               {[
-                { icon: <Instagram size={18} />, name: 'Instagram' },
-                { icon: <Linkedin size={18} />, name: 'LinkedIn' },
-                { icon: <Github size={18} />, name: 'GitHub' },
+                { icon: <Instagram size={18} />, name: 'Instagram' , url: 'https://www.instagram.com/hern_yee'},
+                { icon: <Linkedin size={18} />, name: 'LinkedIn', url: 'https://www.linkedin.com/in/hernyee/'},
+                { icon: <Github size={18} />, name: 'GitHub', url: 'https://github.com/H3rnYee'},
               ].map((social, i) => (
                 <motion.a
                   key={social.name}
-                  href="#"
+                  href= {social.url}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
