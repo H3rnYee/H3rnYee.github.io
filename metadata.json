@@ -1,0 +1,6 @@
+{
+  "name": "Elysian Portfolio",
+  "description": "A refined, editorial-inspired personal portfolio showcasing creative work and technical expertise.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
